@@ -1,0 +1,230 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* CSS variables so inline color-mix() styles in components (e.g. BoardCard
+   done/flag tints) can flip surface color with theme without a JS branch. */
+:root {
+  --surface: #ffffff;
+  --surface-muted: #f8fafc;
+}
+html.dark {
+  --surface: #1e293b;
+  --surface-muted: #0f172a;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  color: #1f2937;
+  background: #fafafa;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: 'cv11', 'ss01';
+  color-scheme: light;
+}
+
+html.dark,
+html.dark body,
+html.dark #root {
+  color: #e2e8f0;
+  background: #0f172a;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button {
+  font-family: inherit;
+}
+
+/* Dark-mode overrides for surfaces that aren't reachable via Tailwind classes
+   (Tailwind class swaps are layered on top of these in components that care
+   most). This is the cheap path to a respectable dark mode without touching
+   every component. */
+html.dark .bg-white {
+  background-color: #1e293b;
+}
+/* Opacity variants — Tailwind emits `.bg-white\/95` etc. with an escaped
+   slash in the selector. We need to mirror each one used in the codebase. */
+html.dark .bg-white\/95 {
+  background-color: rgb(30 41 59 / 0.95);
+}
+html.dark .bg-white\/90 {
+  background-color: rgb(30 41 59 / 0.9);
+}
+html.dark .bg-white\/70 {
+  background-color: rgb(30 41 59 / 0.7);
+}
+html.dark .bg-gray-50 {
+  background-color: #0f172a;
+}
+html.dark .bg-gray-100 {
+  background-color: #1e293b;
+}
+html.dark .bg-gray-200 {
+  background-color: #334155;
+}
+html.dark .hover\:bg-gray-200:hover {
+  background-color: #475569;
+}
+html.dark .bg-gray-200\/60 {
+  background-color: rgb(51 65 85 / 0.6);
+}
+/* Dark buttons already have `hover:bg-gray-800` — in dark mode that hover is
+   near-invisible against the panel bg. Lighten it. */
+html.dark .hover\:bg-gray-800:hover {
+  background-color: #475569;
+}
+html.dark .border-stroke {
+  border-color: #334155;
+}
+html.dark .text-ink {
+  color: #e2e8f0;
+}
+html.dark .text-muted {
+  color: #94a3b8;
+}
+html.dark .hover\:bg-gray-100:hover {
+  background-color: #334155;
+}
+html.dark .hover\:bg-gray-50:hover {
+  background-color: #1e293b;
+}
+html.dark .hover\:border-gray-400:hover {
+  border-color: #475569;
+}
+html.dark input,
+html.dark textarea,
+html.dark select {
+  background-color: #1e293b;
+  color: #e2e8f0;
+}
+html.dark input::placeholder,
+html.dark textarea::placeholder {
+  color: #64748b;
+}
+
+/* React Flow tweaks ----------------------------------------------------- */
+
+.react-flow {
+  background-color: #fafafa;
+}
+
+html.dark .react-flow {
+  background-color: #0f172a;
+}
+html.dark .react-flow__edge-path {
+  stroke: #64748b;
+}
+html.dark .react-flow__controls {
+  background: #1e293b;
+  border: 1px solid #334155;
+}
+html.dark .react-flow__controls button {
+  background: #1e293b;
+  border-color: #334155;
+  color: #e2e8f0;
+  fill: #e2e8f0;
+}
+html.dark .react-flow__minimap {
+  background: #1e293b !important;
+  border: 1px solid #334155 !important;
+}
+/* Edge labels (rendered as inline SVG rect + text — must override via CSS
+   because inline SVG attrs can't reach CSS variables reliably). */
+html.dark .react-flow__edge-textbg {
+  fill: #1e293b;
+  stroke: #334155;
+}
+html.dark .react-flow__edge-text {
+  fill: #e2e8f0;
+}
+
+.react-flow__edge-path {
+  stroke: #9ca3af;
+  stroke-width: 1.5;
+}
+
+.react-flow__edge.selected .react-flow__edge-path,
+.react-flow__edge:focus .react-flow__edge-path,
+.react-flow__edge:focus-visible .react-flow__edge-path {
+  stroke: #2563eb;
+  stroke-width: 2;
+}
+
+.react-flow__handle {
+  width: 8px;
+  height: 8px;
+  background: var(--surface);
+  border: 1.5px solid #9ca3af;
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+
+.react-flow .react-flow__node:hover .react-flow__handle,
+.react-flow__node.selected .react-flow__handle {
+  opacity: 1;
+}
+
+.react-flow__handle.connectable:hover {
+  background: #2563eb;
+  border-color: #2563eb;
+}
+
+.react-flow__node {
+  font-size: 13px;
+}
+
+.react-flow__node.selected .card-node {
+  outline: 2px solid #2563eb;
+  outline-offset: 1px;
+}
+
+.card-node {
+  width: 180px;
+  min-height: 36px;
+  border-radius: 8px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: 500;
+  line-height: 1.2;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+  user-select: none;
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+
+.card-node--border-none {
+  border: 1px solid transparent;
+}
+.card-node--border-thin {
+  border: 1px solid #d1d5db;
+}
+.card-node--border-thick {
+  border: 2px solid #4b5563;
+}
+
+.card-node__input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  text-align: center;
+  font: inherit;
+  color: inherit;
+  resize: none;
+}
+
+/* DnD touch handling — without this, dragging a card or list on a touchscreen
+   fights with native page scroll and either nothing happens or the page jumps. */
+.dnd-handle {
+  touch-action: none;
+}
